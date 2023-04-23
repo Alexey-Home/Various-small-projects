@@ -13,9 +13,9 @@ sample_r = {
     3: r"^\s*(([0-9])*)\s*CALL\s*PGM\s*TNC:\\otmena.h",
     4: r"^\s*([0-9]*)\s*TOOL\s+CALL\s+([0-9]+)\s+[XYZ]*\s+S([0-9]+)",
     5: r"^\s*([0-9]*)\s*L\s+([XYZBC]{1}[\+\-.0-9]+)*\s*([XYZBC]{1}[\+\-.0-9]+)*\s*([XYZBC]{1}[\+\-.0-9]+)*"
-       r"\s*([XYZBC]{1}[\+\-.0-9]+)*\s*([XYZBC]{1}[\+\-.0-9]+)*\s*[R0|RL|RR]*\s+FMAX\s*(M[0-9]+)*\s*$",
-    6: r"^\s*([0-9]*)\s*L\s+([XYZBC]{1}[\+\-.0-9]+)*\s*([XYZBC]{1}[\+\-.0-9]+)*\s*([XYZBC]{1}[\+\-.0-9]+)*"
-       r"\s*([XYZBC]{1}[\+\-.0-9]+)*\s*([XYZBC]{1}[\+\-.0-9]+)*\s*[R0|RL|RR]*\s*(F[ZU0-9.]+)*\s*(M[0-9]+)*\s*$",
+       r"\s*([XYZBC]{1}[\+\-.0-9]+)*\s*([XYZBC]{1}[\+\-.0-9]+)*\s*([R0|RL|RR]*)\s+FMAX\s*(M[0-9]+)*\s*$",
+    6: r"^\s*([0-9]*)\s*L\s+([XYZBC]{1}[\+\-.0-9]+)*\s*([XYZBC]{1}([\+\-.0-9]+))*\s*([XYZBC]{1}[\+\-.0-9]+)*"
+       r"\s*([XYZBC]{1}[\+\-.0-9]+)*\s*([XYZBC]{1}[\+\-.0-9]+)*\s*([R0|RL|RR]*)\s*(F[ZU0-9.]+)*\s*(M[0-9]+)*\s*$",
     7: r"^\s*([0-9]*)\s*C\s+([XYZCB]{1}[\+\-.0-9]+)*\s*([XYZCB]{1}[\+\-.0-9]+)\s*([XYZCB]{1}[\+\-.0-9]+)*"
        r"\s*([XYZCB]{1}[\+\-.0-9]+)*\s*([XYZCB]{1}[\+\-.0-9]+)*\s*DR\+\s*(F[ZU0-9.]+)*$",
     8: r"^\s*([0-9]*)\s*C\s+([XYZCB]{1}[\+\-.0-9]+)*\s*([XYZCB]{1}[\+\-.0-9]+)\s*([XYZCB]{1}[\+\-.0-9]+)*"
@@ -24,13 +24,15 @@ sample_r = {
     10: r"^\s*([0-9]*)\s*(M[0-9]*)+\s*(M[0-9]*)*\s*(M[0-9]*)*",
     2000: r"^\s*([0-9]+)\s*(Q[0-9]+)+\s*=\s*(Q?[\+\-.0-9]+)",
     2001: r"^\s*([0-9]*)\s*(Q[0-9]+)+\s*=\s*(Q[\+\-.0-9]+)\s*([\+\-\*\\])\s*(Q[\+\-.0-9]+)",
-    2002: r"^\s*([0-9]*)\s+L\s+([XYZBC]{1}[\+\-]{1}Q[0-9]+)*\s*([XYZBC]{1}[\+\-]Q[0-9]+)*\s*([XYZBC]{1}[\+\-]Q[0-9]+)*"
-          r"\s*([XYZBC]{1}[\+\-]Q[0-9]+)*\s*([XYZBC]{1}[\+\-]Q[0-9]+)*\s*[R0|RL|RR]*\s+FMAX\s*$",
+    2002: r"^\s*([0-9]*)\s+L\s+([XYZBC]{1}[\+\-]{1}Q?[0-9]+)*\s*([XYZBC]{1}[\+\-]Q?[0-9]+)*\s*([XYZBC]{1}[\+\-]Q?[0-9]+)*"
+          r"\s*([XYZBC]{1}[\+\-]Q?[0-9]+)*\s*([XYZBC]{1}[\+\-]Q?[0-9]+)*\s*([R0|RL|RR]*)\s+FMAX\s*$",
     2003: r"^([0-9]+)\sFN\s+9:\s+IF\s*([\+|\-]Q[0-9]+)\s+EQU\s+([\+|\-]Q[0-9]+)\s+GOTO\s+LBL\s+([0-9]+)\s*$",
     2004: r"^([0-9]+)\sFN\s+12:\s+IF\s*([\+|\-]Q[0-9]+)\s+LT\s+([\+|\-]Q[0-9]+)\s+GOTO\s+LBL\s+([0-9]+)\s*$",
     2005: r"^([0-9]+)\sFN\s+11:\s+IF\s*([\+|\-]Q[0-9]+)\s+GT\s+([\+|\-]Q[0-9]+)\s+GOTO\s+LBL\s+([0-9]+)\s*$",
     2006: r"^\s*([0-9]*)\s*CALL\s+LBL\s+([0-9]+)\s*$",
-    2007: r"^([0-9]+)\s+LBL\s+([0-9]+)\s*.*$"
+    2007: r"^([0-9]+)\s+LBL\s+([0-9]+)\s*.*$",
+    2008: r"^\s*([0-9]*)\s+L\s+([XYZBC]{1}[\+\-]{1}Q?[0-9]+)*\s*([XYZBC]{1}[\+\-]Q?[0-9]+)*\s*([XYZBC]{1}[\+\-]Q?[0-9]+)*"
+          r"\s*([XYZBC]{1}[\+\-]Q?[0-9]+)*\s*([XYZBC]{1}[\+\-]Q?[0-9]+)*\s*([R0|RL|RR]*)\s+(F[Z|V]?Q?[0-9]+)\s*$",
 
 }
 
@@ -40,8 +42,8 @@ sample_f = {
     2: "N{0} G91G30Z0.",                        # Возврат в референтную точку
     3: "N{0} G00G90G80G40G49",                  # Строка безопасности
     4: "N{0} T{1}M06\nG90\nS{2}",               # Вызов режущий инструмент
-    5: "N{0} G00{1}{2}{3}{4}{5}",               # Линейная интерполяция (быстрый ход)
-    6: "N{0} G01{1}{2}{3}{4}{5}{6}",            # Линейная интерполяция (рабочая подача)
+    5: "N{0} G00{1}{2}{3}{4}{5}{6}",            # Линейная интерполяция (быстрый ход)
+    6: "N{0} G01{1}{2}{3}{4}{5}{6}{7}",         # Линейная интерполяция (рабочая подача)
     7: "N{0} G02{1}{2}{3}{4}{5}",               # Круговая интерполяция (по часовой стрелке)
     8: "N{0} G03{1}{2}{3}{4}{5}",               # Круговая интерполяция (против часвой стрелке)
     9: "N{0} G90G54",                           # Система координат
@@ -54,15 +56,40 @@ sample_f = {
     2005: "N{0} IF[{1}GT{2}]GOTO{3}0000",       # Макро: условие сравнения (>)
     2006: "N{0} GOTO{1}0000",                   # Макро: переход на определнный кадр
     2007: "N{1}0000",                           # Макро: определенный кадр
+    2008: "N{0} G01{1}{2}{3}{4}{5}{6}{7}",
     9000: "G43H{0}"                             # Включение коррекции на длину
+}
+
+sub_sample = {
+    5:  [["R0", "G40"], ["RL", "G41"], ["RR", "G42"]],
+    6: [["R0", "G40"], ["RL", "G41"], ["RR", "G42"]],
+    0: [["IX", "I"], ["IY", "J"]],
+    10: [["M13", "M3M8"]],
+    2000: [["Q", "#"]],
+    2001: [["Q", "#"]],
+    2002: [["Q", "#"]],
+    2003: [["Q", "#"]],
+    2004: [["Q", "#"]],
+    2008: [["Q", "#"]]
 }
 
 sub_data = {
     "tool_number": 0,
-    "length compensation": False
+    "length compensation": False,
+    "radius compensation": False
 }
 
 
+def update_sub_data(function):
+    def wrapper(*args, **kwargs):
+        new_str = function(*args, **kwargs)
+        if re.search(r"\d+G4[12]{1}(?:$|\D+)", new_str):
+            tmp = re.findall(r"\d+G4[12]{1}(?:$|\D+)", new_str)[0]
+            new_str = new_str.replace(tmp, f"{tmp}D{sub_data['tool_number']}")
+        return new_str
+    return wrapper
+
+@update_sub_data
 def get_new_str(positions: list, sub_positions: list) -> str:
     """
     Функция составления новой строки.
@@ -110,12 +137,10 @@ def get_sub_positions(positions: list) -> tuple:
         return tuple(lst_pos)
 
     lst = []
-    if positions[-1] == 0:
-        lst = get_replace(positions, [["IX", "I"], ["IY", "J"]])
-    elif positions[-1] == 10:
-        lst = get_replace(positions, [["M13", "M3M8"]])
-    elif positions[-1] in [2000, 2001, 2002, 2003]:
-        lst = get_replace(positions, [["Q", "#"]])
+    lst_pos_to_change = [0, 5, 6, 10, 2000, 2001, 2002, 2003, 2008]
+
+    if positions[-1] in lst_pos_to_change:
+        lst = get_replace(positions, sub_sample[positions[-1]])
     return tuple(lst) if lst else positions[0]
 
 
@@ -192,9 +217,7 @@ def main():
                 positions[0] = get_sub_positions(positions)
                 sub_positions = positions
                 continue
-            elif positions[-1] in [10]:
-                positions[0] = get_sub_positions(positions)
-            elif positions[-1] in [2000, 2001, 2002, 2003]:
+            elif positions[-1] in [5, 6, 10, 2000, 2001, 2002, 2003, 2008]:
                 positions[0] = get_sub_positions(positions)
 
             new_strng = get_new_str(positions, sub_positions)
